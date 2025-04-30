@@ -1,0 +1,127 @@
+// В этом файле должны быть стили только для БЭМ-блока field-radio, его элементов,
+// модификаторов, псевдоселекторов, псевдоэлементов, $media-условий...
+// Не пишите здесь другие селекторы.
+@use 'sass:math';
+$line-height:                 1.375em !default;
+
+.field-radio {
+  display: block;
+  margin-bottom: math.div($line-height, 2);
+
+  &__title {
+    display: block;
+    font-weight: 700;
+    line-height: $line-height;
+    margin-bottom: 26px;
+    // margin-bottom: 0.4em;
+    font-family: $font-family--secondary;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 28px;
+    color: $black;
+  }
+
+  &__input-wrap {
+
+    & + & {
+      margin-top: math.div($line-height, 2);
+    }
+  }
+
+  &__name {
+    position: relative;
+    display: inline-block;
+    padding-left: 1.5em;
+    margin-right: 0.6em;
+    font-weight: 400;
+    line-height: $line-height;
+  }
+
+  &__name-text {
+    padding-left: 0.8em;
+
+    // свой чекбокс
+    &:before {
+      content: '';
+      position: absolute;
+      top: -0.1em;
+      left: 0;
+      width: 24px;
+      height: 24px;
+      // width: 16px;
+      // height: 16px;
+      background-image: url('../img/radio.svg');
+      // background-image: svg-load('../blocks/field-radio/img_to_bg/radiobutton.svg');
+      background-size: 100%;
+    }
+    @at-root input:checked ~ &:before {
+      background-image: url('../img/radio-checked.svg');
+      // background-image: svg-load('../blocks/field-radio/img_to_bg/radiobutton--checked.svg');
+      background-size: 100%;
+    }
+  }
+
+  &__input {
+    position: absolute;
+    top: 0.8em;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-50%);
+
+    &:focus,
+    &:active {
+      @include field-focus;
+    }
+
+    // сокрытие инпута в случае использования своего чекбокса
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  &__help-text-wrap {
+    padding-left: 1.5em;
+  }
+
+  &__help-text {
+    @include field-help-text;
+    padding-left: 0.8em;
+  }
+
+  &--payment {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+
+  &--delivery {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+
+    & .field-radio__input-wrap{
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--arrow-slider-color);
+    }
+
+    & .field-radio__input:checked ~ .field-radio__input-wrap {
+      border: 1px solid var(--secondary-color); // Когда радиокнопка активна (checked), меняем бордер
+    }
+
+    & .field-radio__input:active ~ .field-radio__input-wrap {
+      border: 1px solid var(--secondary-color); // Когда радиокнопка активна (в процессе нажатия), тоже меняем бордер
+    }
+  }
+
+  &--np {
+    margin-top: 40px;
+    margin-bottom: 26px;
+  }
+}

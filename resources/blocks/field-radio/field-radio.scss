@@ -1,0 +1,291 @@
+// В этом файле должны быть стили только для БЭМ-блока field-radio, его элементов,
+// модификаторов, псевдоселекторов, псевдоэлементов, $media-условий...
+// Не пишите здесь другие селекторы.
+@use 'sass:math';
+$line-height:                 1.375em !default;
+
+.field-radio {
+  display: block;
+  margin-bottom: math.div($line-height, 2);
+
+  &__title {
+    display: block;
+    font-weight: 700;
+    line-height: $line-height;
+    margin-bottom: 26px;
+    font-family: $font-family--secondary;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 28px;
+    color: $black;
+  }
+
+  &__input-wrap {
+    & + & {
+      margin-top: math.div($line-height, 2);
+    }
+    
+  }
+
+  &__name {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    // display: inline-block;
+    padding-left: 1.5em;
+    margin-right: 0.6em;
+    font-weight: 400;
+    line-height: $line-height;
+
+    @media (min-width: 480px) {
+      gap: 0;
+      flex-wrap: nowrap;
+    }
+
+    @media (min-width: 992px) {
+      flex-wrap: wrap;
+  }
+   
+    @media (min-width: 1200px) {
+      flex-wrap: nowrap;
+  }
+
+}
+
+  &__name-text {
+    padding-left: 0.8em;
+    padding-right: 0.8em;
+
+    // свой чекбокс
+    &:before {
+      content: '';
+      position: absolute;
+      top: -0.1em;
+      left: 0;
+      width: 24px;
+      height: 24px;
+      background-image: url('../img/radio.svg');
+      background-size: 100%;
+    }
+
+    @at-root input:checked ~ &:before {
+      background-image: url('../img/radio-checked.svg');
+      background-size: 100%;
+    }
+
+    & input:checked ~ &::before {
+      background-image: url('../img/radio-checked.svg');
+    }
+  }
+
+  &__input {
+    position: absolute;
+    top: 0.8em;
+    left: 0;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-50%);
+
+    &:focus,
+    &:active {
+      @include field-focus;
+    }
+
+    // сокрытие инпута в случае использования своего чекбокса
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  &__help-text-wrap {
+    padding-left: 1.5em;
+  }
+
+  &__help-text {
+    @include field-help-text;
+    padding-left: 0.8em;
+  }
+
+  &--payment {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+
+    @media(min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 40px;
+      align-items: center;
+
+      & .field-radio__name-text:before  {
+        top: 0.5em;
+      }
+    }
+   
+  }
+
+  &--delivery {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-bottom: 20px;
+
+    & .field-radio__input-wrap {
+      padding: 12px 20px;
+      border-radius: 10px;
+      border: 1px solid var(--arrow-slider-color);
+
+      &.checked {
+        border: 1px solid var(--secondary-color);
+
+        & .field-radio__help-text {
+          color: var(--secondary-color);
+          background: var(--background-video-color);
+        }
+      }
+
+      
+    }
+
+    // Когда радиокнопка выбрана (checked), меняем бордер
+    &__input:checked ~ &__name .field-radio__input-wrap {
+      border: 1px solid var(--secondary-color) !important;
+    }
+
+    // Когда радиокнопка активна (active), меняем бордер в родительском элементе
+    &__input:active ~ &__name .field-radio__input-wrap {
+      border: 1px solid var(--secondary-color) !important;
+    }
+
+    & .field-radio__help-text {
+      width: fit-content;
+      font-size: 14px;
+      line-height: 1.5;
+      padding: 12px 22px;
+      /* padding-right: 22px; */
+      align-items: center;
+      justify-content: revert-layer;
+      margin-left: -1em;
+      color: var(--text-color);
+      background: var(--background-tab-color);
+      border-radius: 20px;
+    }
+    
+
+    & .field-radio__input-wrap .checked .field-radio__help-text {
+      color: var(--text-color);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    & .field-radio__input-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+
+      @media(min-width: 768px) {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        
+      }
+    }
+
+    & .field-radio__name-text {
+      color: $black;
+      font-family: $font-family;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 28px;
+
+      &:before {
+        top: 0.1em;
+      }
+    }
+
+    & .order__delivery {
+      display: flex;
+      flex-direction: row;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+  }
+
+  &--np {
+    margin-top: 40px;
+    margin-bottom: 26px;
+
+    & .field-radio__name-text {
+      color: var(--light-text-color);
+      font-family: $font-family;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 24px;
+
+      &:before {
+        top: 0;
+      }
+
+      // @media (min-width: 480px) {
+      //   &:before {
+      //     top: -0.2em;
+      //   }
+      // }
+    }
+
+
+  //   & .field-radio__input:checked ~ .field-radio__name .field-radio__name-text {
+  //     line-height: 700;
+  //     color: $black;
+  // }
+
+  }
+
+  &__img {
+    margin-left: 30px;
+  }
+
+  &--delivery {
+    &  .field-radio__name-text {
+      margin: 0;
+      // margin-left: 10px;
+    }
+
+    & .order__delivery {
+      margin: 0;
+      // margin-left: 10px;
+    }
+
+    & .order__delivery-date {
+      font-family: $font-family;
+      font-size: 12px;
+      color: $black;
+      font-weight: 700;
+    } 
+    
+    & .order__delivery-title {
+      font-family: $font-family;
+      font-size: 12px;
+      color: var(--light-text-color);
+      font-weight: 500;
+    }
+
+    & .field-radio__input-wrap:last-child .field-radio__name-text::before {
+      top: 0.5em;
+    }
+  }
+
+}
+
+
+// .field-radio__input:checked + .field-radio__name .field-radio__name-text {
+//   line-height: 700;
+//   color: red;
+// }
+
