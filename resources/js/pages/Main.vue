@@ -1,11 +1,19 @@
 <script setup lang="ts">
-import MainDropDown from '@/components/ui/my-dropdown-menu/MainDropDown.vue';
-import   CatalogCarousel from '@/components/CatalogCarousel.vue';
-import   MainCarousel from '@/components/MainCarousel.vue';
-import SubmainCarousel from '@/components/SubmainCarousel.vue'
-import CatalogGroupCarousel from '@/components/CatalogGroupCarousel.vue'
+// import MainDropDown from '@/components/ui/my-dropdown-menu/MainDropDown.vue';
+import CatalogCarousel from '@/components/CatalogCarousel.vue';
+import MainCarousel from '@/components/MainCarousel.vue';
+import SubmainCarousel from '@/components/SubmainCarousel.vue';
+import CatalogGroupCarousel from '@/components/CatalogGroupCarousel.vue';
 import NewProducts from '@/components/NewProducts.vue';
-import  VideoCarousel from '@/components/VideoCarousel.vue';
+import VideoCarousel from '@/components/VideoCarousel.vue';
+import PartnerBannersCarousel from '@/components/PartnerBannersCarousel.vue';
+
+
+
+defineOptions({
+  name: 'HomePage'
+});
+
 
 
 
@@ -92,15 +100,67 @@ const products = [
 ];
 
 const videosData = [
-    { id: '1', src: 'https://www.youtube.com/embed/dm3USaTW8u4?rel=0', title: 'ColorWay Slim Headphones TWS-2 Earbuds Black (CW-TWS2BK)' },
-    { id: '2', src: 'https://www.youtube.com/embed/wM2JUPI8zUI?rel=0', title: 'Power Bank ColorWay 30 000 mAh High-power 2 (USB QC3.0 + USB-C PD 22.5W) Black' },
-    { id: '3', src: 'https://www.youtube.com/embed/q5kSoBi5dMg?rel=0', title: 'ColorWay Slim Headphones 3.5 mm Wired Earphone Blast 1 Black' },
-    { id: '4', src: 'https://www.youtube.com/embed/RDw-Myq2mcI?rel=0', title: 'ColorWay microfiber car wash and polish glove, double-sided (CW-2417)' },
-    { id: '5', src: 'https://www.youtube.com/embed/JntBux3lDh4?rel=0', title: 'ColorWay LCD and TFT Cleaning Wipes 40pcs (CW-1074)' },
-    { id: '6', src: 'https://www.youtube.com/embed/uZ-rXNRg3Mo?rel=0', title: 'ColorWay synthetic suede car wipe in tube 43x32cm/66x43cm' },
-    { id: '7', src: 'https://www.youtube.com/embed/iw8dUGxhUFI?rel=0', title: 'Power socket СolorWay 5 power sockets/3M black (CW-PSEA53BK)' },
-    { id: '8', src: 'https://www.youtube.com/embed/dmi1IE4D5I0?rel=0', title: 'Power Bank ColorWay 20 000 mAh(USB QC3.0 + USB-C PD 20W)' }
+    { id: 1, src: 'https://www.youtube.com/embed/dm3USaTW8u4?rel=0', title: 'ColorWay Slim Headphones TWS-2 Earbuds Black (CW-TWS2BK)' },
+    { id: 2, src: 'https://www.youtube.com/embed/wM2JUPI8zUI?rel=0', title: 'Power Bank ColorWay 30 000 mAh High-power 2 (USB QC3.0 + USB-C PD 22.5W) Black' },
+    { id: 3, src: 'https://www.youtube.com/embed/q5kSoBi5dMg?rel=0', title: 'ColorWay Slim Headphones 3.5 mm Wired Earphone Blast 1 Black' },
+    { id: 4, src: 'https://www.youtube.com/embed/RDw-Myq2mcI?rel=0', title: 'ColorWay microfiber car wash and polish glove, double-sided (CW-2417)' },
+    { id: 5, src: 'https://www.youtube.com/embed/JntBux3lDh4?rel=0', title: 'ColorWay LCD and TFT Cleaning Wipes 40pcs (CW-1074)' },
+    { id: 6, src: 'https://www.youtube.com/embed/uZ-rXNRg3Mo?rel=0', title: 'ColorWay synthetic suede car wipe in tube 43x32cm/66x43cm' },
+    { id: 7, src: 'https://www.youtube.com/embed/iw8dUGxhUFI?rel=0', title: 'Power socket СolorWay 5 power sockets/3M black (CW-PSEA53BK)' },
+    { id: 8, src: 'https://www.youtube.com/embed/dmi1IE4D5I0?rel=0', title: 'Power Bank ColorWay 20 000 mAh(USB QC3.0 + USB-C PD 20W)' }
 ];
+
+const partnersBanners = [
+    {
+        id: 1,
+        image: 'assets/images/brain.png',
+        title: 'Брейн',
+        link: '/partners/brain'
+    },
+    {
+        id: 2,
+        image: 'assets/images/zhuk.png',
+        title: 'ЖЖУК',
+        link: '/partners/zhuk'
+    },
+    {
+        id: 3,
+        image: 'assets/images/rozetka.png',
+        title: 'Розетка',
+        link: '/partners/rozetka'
+    },
+    {
+        id: 4,
+        image: 'assets/images/vodafone.png',
+        title: 'Водафон',
+        link: '/partners/vodafone'
+    },
+    {
+        id: 5,
+        image: 'assets/images/foxtrot.png',
+        title: 'Фокстрот',
+        link: '/partners/foxtrot'
+    },
+    {
+        id: 6,
+        image: 'assets/images/auchan.png',
+        title: 'Ашан',
+        link: '/partners/auchan'
+    },
+    {
+        id: 7,
+        image: 'assets/images/epicentr.png',
+        title: 'Епіцентр',
+        link: '/partners/epicentr'
+    },
+    {
+        id: 8,
+        image: 'assets/images/microtron.png',
+        title: 'Мікротрон',
+        link: '/partners/microtron'
+    }
+];
+
 
 
 </script>
@@ -120,6 +180,10 @@ const videosData = [
             :autoplay="true"
             :delay="5000"
         />
+        <PartnerBannersCarousel
+            :partners="partnersBanners"
+            :title="'Наші Партнери'"
+         />
 
     </div>
 </template>
