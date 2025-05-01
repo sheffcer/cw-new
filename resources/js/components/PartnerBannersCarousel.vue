@@ -1,21 +1,11 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
 import useEmblaCarousel from 'embla-carousel-vue';
+import type { EmblaOptionsType } from 'embla-carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
-interface Partner {
-    id: number;
-    image: string;
-    title: string;
-    link: string;
-}
+defineProps<{ partners: { id: number; image: string; title: string; link: string }[]; title?: string }>();
 
-const props = defineProps<{
-    partners: Partner[];
-    title?: string;
-}>();
-
-const OPTIONS = {
+const OPTIONS: EmblaOptionsType = {
     align: 'start',
     loop: true,
     skipSnaps: false,
@@ -28,6 +18,7 @@ const [emblaRef, emblaApi] = useEmblaCarousel(OPTIONS, [Autoplay()]);
 const scrollPrev = () => emblaApi.value?.scrollPrev();
 const scrollNext = () => emblaApi.value?.scrollNext();
 </script>
+
 
 <template>
     <div class="partner-banner">
