@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\NewsController; // Добавляем импорт контроллера
+
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -16,9 +18,12 @@ Route::get('/main', function () {
 });
 
 
-Route::get('/news', function () {
-    return Inertia::render('News');
-})->name('news');
+// Группировка маршрутов для новостей
+Route::prefix('news')->group(function () {
+    Route::get('/', [NewsController::class, 'index'])->name('news.index');
+    Route::get('/{id}', [NewsController::class, 'show'])->name('news.show');
+});
+
 
 
 require __DIR__.'/settings.php';

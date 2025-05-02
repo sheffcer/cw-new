@@ -10,15 +10,15 @@ import NewProducts from '@/components/NewProducts.vue';
 import VideoCarousel from '@/components/VideoCarousel.vue';
 import PartnerBannersCarousel from '@/components/PartnerBannersCarousel.vue';
 import NewsBlock from '@/components/NewsBlock.vue';
-import { usePage } from '@inertiajs/vue3';
-import { onMounted } from 'vue';
-
-const page = usePage();
-
-onMounted(() => {
-    console.log('Page data:', page);
-    // console.log('test123');
-});
+// import { usePage } from '@inertiajs/vue3';
+// import { onMounted } from 'vue';
+//
+// const page = usePage();
+//
+// onMounted(() => {
+//     console.log('Page data:', page);
+//     // console.log('test123');
+// });
 
 
 
@@ -171,6 +171,8 @@ const partnersBanners = [
     }
 ];
 
+
+
 const newsData = [
     {
         id: 1,
@@ -227,6 +229,8 @@ const newsData = [
         }
     }
 ];
+
+
 
 
 </script>
