@@ -1,5 +1,7 @@
 <script setup lang="ts">
 // import MainDropDown from '@/components/ui/my-dropdown-menu/MainDropDown.vue';
+
+import { Head } from '@inertiajs/vue3';
 import CatalogCarousel from '@/components/CatalogCarousel.vue';
 import MainCarousel from '@/components/MainCarousel.vue';
 import SubmainCarousel from '@/components/SubmainCarousel.vue';
@@ -7,6 +9,16 @@ import CatalogGroupCarousel from '@/components/CatalogGroupCarousel.vue';
 import NewProducts from '@/components/NewProducts.vue';
 import VideoCarousel from '@/components/VideoCarousel.vue';
 import PartnerBannersCarousel from '@/components/PartnerBannersCarousel.vue';
+import NewsBlock from '@/components/NewsBlock.vue';
+import { usePage } from '@inertiajs/vue3';
+import { onMounted } from 'vue';
+
+const page = usePage();
+
+onMounted(() => {
+    console.log('Page data:', page);
+    // console.log('test123');
+});
 
 
 
@@ -15,9 +27,7 @@ defineOptions({
 });
 
 
-
-
-  const mainSliderData = [
+const mainSliderData = [
     {
         mobile: 'assets/images/main-slider-01-mobile.jpg',
         tablet: 'assets/images/main-slider-01-tablet.jpg',
@@ -161,11 +171,80 @@ const partnersBanners = [
     }
 ];
 
+const newsData = [
+    {
+        id: 1,
+        title: 'Мініатюрні деталі які якісно доповнять ваш користувацький досвід',
+        description: 'Адаптер перехідник Colorway Type-C до USB-A – це мініатюрний адаптер, який дає можливість заряджати смартфони та планшети',
+        date: '10.10.2024',
+        isNew: true,
+        image: {
+            default: 'assets/images/news-01.jpg',
+            mobile: 'assets/images/news-01-mobile.jpg',
+            tablet: 'assets/images/news-01-tablet.jpg',
+            desktop: 'assets/images/news-01-desktop.jpg'
+        },
+        link: '/news/1'
+    },
+    {
+        id: 2,
+        title: 'Нова лінійка портативних акумуляторів з підтримкою швидкої зарядки',
+        description: 'Зустрічайте нову лінійку портативних акумуляторів Colorway з підтримкою технологій Quick Charge та Power Delivery',
+        date: '05.10.2024',
+        isNew: true,
+        image: {
+            default: 'assets/images/news-02.jpg',
+            mobile: 'assets/images/news-02-mobile.jpg',
+            tablet: 'assets/images/news-02-tablet.jpg',
+            desktop: 'assets/images/news-02-desktop.jpg'
+        }
+    },
+    {
+        id: 3,
+        title: 'Бездротові навушники ColorWay: новий рівень комфорту та якості звуку',
+        description: 'Представляємо нову модель бездротових навушників ColorWay з активним шумопоглинанням та підтримкою Bluetooth 5.3',
+        date: '28.09.2024',
+        isNew: true,
+        image: {
+            default: 'assets/images/news-03.jpg',
+            mobile: 'assets/images/news-03-mobile.jpg',
+            tablet: 'assets/images/news-03-tablet.jpg',
+            desktop: 'assets/images/news-02-desktop.jpg'
+        },
+        link: '/news/3'
+    },
+    {
+        id: 4,
+        title: 'Інноваційні рішення для очищення техніки від ColorWay',
+        description: 'Нова серія професійних засобів для очищення екранів, клавіатур та інших поверхонь електронних пристроїв',
+        date: '20.09.2024',
+        isNew: false,
+        image: {
+            default: 'assets/images/news-04.jpg',
+            mobile: 'assets/images/news-04-mobile.jpg',
+            tablet: 'assets/images/news-04-tablet.jpg',
+            desktop: 'assets/images/news-04-desktop.jpg'
+        }
+    }
+];
 
 
 </script>
 
 <template>
+    <Head title="">
+        <title>Main Index</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta head-key="description" name="index page colorway" content="This is the default description Colorway" />
+        <meta name="language" content="uk">
+        <meta http-equiv="content-language" content="uk">
+        <meta property="og:url" content="https://colorway.com/uk_UA">
+        <link rel="alternate" href="https://colorway.com/uk_UA/uk_UA" hreflang="uk-UA">
+        <link rel="alternate" href="https://colorway.com/ru_UA/uk_UA" hreflang="ru-UA">
+        <link rel="alternate" href="https://colorway.com/en_UA/uk_UA" hreflang="en-UA">
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />"
+        <meta name="ROBOTS" content="INDEX, FOLLOW">
+    </Head>
     <div class="main-content__inner">
 <!--        <h1 class="text-2xl font-bold">Welcome Home</h1>-->
         <CatalogCarousel/>
@@ -180,10 +259,17 @@ const partnersBanners = [
             :autoplay="true"
             :delay="5000"
         />
-        <PartnerBannersCarousel
-            :partners="partnersBanners"
-            :title="'Наші Партнери'"
-         />
+<!--        <PartnerBannersCarousel-->
+<!--            :partners="partnersBanners"-->
+<!--            :title="'Наші Партнери'"-->
+<!--         />-->
+
+        <NewsBlock
+            :news="newsData"
+            title="Новини"
+            showAllLink="/news"
+        />
+
 
     </div>
 </template>
