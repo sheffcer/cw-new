@@ -15,5 +15,11 @@ Route::get('/main', function () {
     return Inertia::render('Main');
 });
 
+
+Route::get('/news', function () {
+    return Inertia::render('News');
+})->name('news');
+
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
