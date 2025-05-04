@@ -33,18 +33,8 @@ class NewsController extends Controller
     public function show($id)
     {
         $newsItem = News::findOrFail($id);
-        $formattedNews = [
-            'id' => $newsItem->id,
-            'title' => $newsItem->title,
-            'content' => $newsItem->content ?? $newsItem->description,
-            'image' => [
-                'default' => $newsItem->image_default,
-                'mobile' => $newsItem->image_mobile,
-                'tablet' => $newsItem->image_tablet,
-            ],
-            'created_at' => $newsItem->date,
-        ];
 
+        // Получаем 3 последние новости, исключая текущую новость
         $relatedNews = News::where('id', '!=', $id)
             ->orderBy('date', 'desc')
             ->limit(3)
@@ -53,15 +43,37 @@ class NewsController extends Controller
                 return [
                     'id' => $item->id,
                     'title' => $item->title,
-                    'content' => $item->content ?? $item->description,
+                    'description' => $item->description, // не используется в компоненте
+                    'content' => $item->content,
+                    'date' => date('d.m.Y', strtotime($item->date)), // не используется в компоненте
+                    'isNew' => $item->is_new, // не используется в компоненте
                     'image' => [
                         'default' => $item->image_default,
                         'mobile' => $item->image_mobile,
                         'tablet' => $item->image_tablet,
                     ],
-                    'link' => "/news/{$item->id}", // обязательно для RelatedNews интерфейса
+                    'link' => "/news/{$item->id}", // важно для RelatedNews интерфейса
                 ];
             });
 
+
+        $formattedNews = [
+            'id' => $newsItem->id,
+            'title' => $newsItem->title,
+            'description' => $newsItem->description,
+            'date' => date('d.m.Y', strtotime($newsItem->date)),
+            'isNew' => $newsItem->is_new,
+            'image' => [
+                'default' => $newsItem->image_default,
+                'mobile' => $newsItem->image_mobile,
+                'tablet' => $newsItem->image_tablet,
+            ],
+            'content' => $newsItem->content,
+        ];
+
+        return Inertia::render('NewsDetail', [
+            'newsItem' => $formattedNews,
+            'relatedNews' => $relatedNews
+        ]);
     }
 }
