@@ -8,7 +8,7 @@ interface NewsItem {
     id: number;
     title: string;
     description: string;
-    date: string;
+    created_at: string;
     isNew: boolean;
     image: {
         default: string;
