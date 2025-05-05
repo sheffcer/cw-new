@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { router } from '@inertiajs/vue3';
 import { usePage } from '@inertiajs/vue3';
+import axios from 'axios'; // Убедитесь, что axios доступен в вашем проекте
 
 const isOpen = ref(false);
 
 // Определяем доступные языки
 const languages = [
-    { code: 'ua', label: 'Укр' },
+    { code: 'uk', label: 'Укр' },
     { code: 'ru', label: 'Рус' },
     { code: 'en', label: 'Eng' }
 ];
 
 // Получаем текущую локаль из Inertia shared данных или используем дефолтную
-const currentLocale = computed(() => usePage().props.locale || 'ua');
+const currentLocale = computed(() => usePage().props.locale || 'uk');
 
 // Выбираем язык по текущей локали
 const selectedLang = computed(() => {
@@ -31,23 +31,49 @@ const selectOption = (lang: typeof languages[0]) => {
     if (lang.code !== selectedLang.value.code) {
         console.log('Отправляем запрос на изменение языка на:', lang.code);
 
-        // Используем прямой URL вместо route()
-        router.post(`/locale/${lang.code}`, {}, {
-            preserveScroll: true,
-            preserveState: true,
-            only: ['locale'],
-            onSuccess: () => {
-                console.log('Язык успешно изменен на:', lang.code);
-                console.log('Новая локаль:', usePage().props.locale);
-            },
-            onError: (errors) => {
-                console.error('Ошибка при изменении языка:', errors);
+        // Получаем CSRF-токен
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+
+        // Вариант 1: Использование формы (более надежный метод)
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/locale/${lang.code}`;
+        form.style.display = 'none';
+
+        // Добавляем CSRF-токен
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = csrfToken || '';
+        form.appendChild(csrfInput);
+
+        // Имитируем метод PUT с помощью скрытого поля _method
+        const methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'POST';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+
+        // Вариант 2: Альтернативный вариант с axios, если выше не работает
+        /*
+        axios.post(`/locale/${lang.code}`, {}, {
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             }
+        }).then(() => {
+            window.location.reload();
+        }).catch(error => {
+            console.error('Ошибка при выполнении запроса:', error);
         });
+        */
     }
     isOpen.value = false;
 };
-
 
 onMounted(() => {
     document.addEventListener('click', (event: Event) => {
@@ -58,6 +84,9 @@ onMounted(() => {
     });
 });
 </script>
+
+
+
 
 <template>
     <label class="page-header__lang field-select">
@@ -80,7 +109,6 @@ onMounted(() => {
         </div>
     </label>
 </template>
-
 
 <style scoped lang="scss">
 // Оставляем ваши стили без изменений

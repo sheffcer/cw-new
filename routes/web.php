@@ -5,7 +5,12 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NewsController; // Добавляем импорт контроллера
 
-Route::get('language/{locale}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
+//Route::get('language/{locale}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
+
+Route::post('/locale/{locale}', [LanguageController::class, 'switchLanguage'])
+    ->name('locale.switch')
+    ->middleware('web');
+
 
 Route::post('/locale/{locale}', function (string $locale) {
     if (in_array($locale, ['ua', 'ru', 'en'])) {

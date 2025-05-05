@@ -6,19 +6,19 @@ use Illuminate\Support\Facades\App;
 use Symfony\Component\HttpFoundation\Response;
 class SetLocale
 {
-    /**
-     * Handle an incoming request.
-     */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
+        // Проверяем, есть ли локаль в сессии
         if (session()->has('locale')) {
             $locale = session()->get('locale');
-            app()->setLocale($locale);
-            // Для отладки
-            \Log::info("Установка локали: {$locale}");
-        } else {
-            \Log::info("Локаль не найдена в сессии");
+            App::setLocale($locale);
+
+            // Логируем для отладки
+            \Log::info("Middleware set locale to: " . $locale);
+            \Log::info("App locale is now: " . App::getLocale());
         }
+
         return $next($request);
     }
 }
+
