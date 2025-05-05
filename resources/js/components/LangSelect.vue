@@ -1,17 +1,25 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
+import { router } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 
 const isOpen = ref(false);
-const selectedLang = ref({
-    code: 'UA',
-    label: 'Укр'
-});
 
+// Определяем доступные языки
 const languages = [
-    { code: 'UA', label: 'Укр' },
-    { code: 'RU', label: 'Рус' },
-    { code: 'EN', label: 'Eng' }
+    { code: 'ua', label: 'Укр' },
+    { code: 'ru', label: 'Рус' },
+    { code: 'en', label: 'Eng' }
 ];
+
+// Получаем текущую локаль из Inertia shared данных или используем дефолтную
+const currentLocale = computed(() => usePage().props.locale || 'ua');
+
+// Выбираем язык по текущей локали
+const selectedLang = computed(() => {
+    const found = languages.find(lang => lang.code === currentLocale.value);
+    return found || languages[0];
+});
 
 const toggleSelect = (event: Event) => {
     event.stopPropagation();
@@ -19,9 +27,27 @@ const toggleSelect = (event: Event) => {
 };
 
 const selectOption = (lang: typeof languages[0]) => {
-    selectedLang.value = lang;
+    // Если выбранный язык отличается от текущего
+    if (lang.code !== selectedLang.value.code) {
+        console.log('Отправляем запрос на изменение языка на:', lang.code);
+
+        // Используем прямой URL вместо route()
+        router.post(`/locale/${lang.code}`, {}, {
+            preserveScroll: true,
+            preserveState: true,
+            only: ['locale'],
+            onSuccess: () => {
+                console.log('Язык успешно изменен на:', lang.code);
+                console.log('Новая локаль:', usePage().props.locale);
+            },
+            onError: (errors) => {
+                console.error('Ошибка при изменении языка:', errors);
+            }
+        });
+    }
     isOpen.value = false;
 };
+
 
 onMounted(() => {
     document.addEventListener('click', (event: Event) => {
@@ -57,6 +83,7 @@ onMounted(() => {
 
 
 <style scoped lang="scss">
+// Оставляем ваши стили без изменений
 .page-header__region.field-select {
     display: none;
 }

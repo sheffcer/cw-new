@@ -10,16 +10,14 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->date('date');
             $table->boolean('is_new')->default(false);
             $table->string('image_default')->nullable();
             $table->string('image_mobile')->nullable();
             $table->string('image_tablet')->nullable();
-            $table->text('content')->nullable();
             $table->timestamps();
         });
+
     }
 
     public function down(): void

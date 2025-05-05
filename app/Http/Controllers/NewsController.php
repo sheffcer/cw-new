@@ -4,26 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Inertia\Inertia;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $newsItems = News::orderBy('date', 'desc')->get()->map(function ($item) {
+        $locale = App::getLocale(); // Получаем текущий язык
+
+        $newsItems = News::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])
+        ->orderBy('date', 'desc')
+        ->get()
+        ->map(function ($item) use ($locale) {
+            $translation = $item->translation($locale);
+
             return [
                 'id' => $item->id,
-                'title' => $item->title,
-                'content' => $item->content ?? $item->description, // из description, если content пустой
+                'title' => $translation ? $translation->title : '',
+                'description' => $translation ? $translation->description : '',
+                'content' => $translation ? ($translation->content ?? $translation->description) : '',
                 'image' => [
                     'default' => $item->image_default,
                     'mobile' => $item->image_mobile,
                     'tablet' => $item->image_tablet,
                 ],
-                'created_at' => $item->date, // предоставляем исходную дату без форматирования
+                'created_at' => $item->date,
+                'isNew' => $item->is_new,
             ];
         });
-
 
         return Inertia::render('News', [
             'newsItems' => $newsItems
@@ -32,44 +43,50 @@ class NewsController extends Controller
 
     public function show($id)
     {
-        $newsItem = News::findOrFail($id);
+        $locale = App::getLocale(); // Получаем текущий язык
 
-        // Получаем 3 последние новости, исключая текущую новость
-        $relatedNews = News::where('id', '!=', $id)
-            ->orderBy('date', 'desc')
-            ->limit(3)
-            ->get()
-            ->map(function ($item) {
-                return [
-                    'id' => $item->id,
-                    'title' => $item->title,
-                    'description' => $item->description, // не используется в компоненте
-                    'content' => $item->content,
-                    'date' => date('d.m.Y', strtotime($item->date)), // не используется в компоненте
-                    'isNew' => $item->is_new, // не используется в компоненте
-                    'image' => [
-                        'default' => $item->image_default,
-                        'mobile' => $item->image_mobile,
-                        'tablet' => $item->image_tablet,
-                    ],
-                    'link' => "/news/{$item->id}", // важно для RelatedNews интерфейса
-                ];
-            });
+        $newsItem = News::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])->findOrFail($id);
 
+        $translation = $newsItem->translation($locale);
 
         $formattedNews = [
             'id' => $newsItem->id,
-            'title' => $newsItem->title,
-            'description' => $newsItem->description,
-            'date' => date('d.m.Y', strtotime($newsItem->date)),
-            'isNew' => $newsItem->is_new,
+            'title' => $translation ? $translation->title : '',
+            'description' => $translation ? $translation->description : '',
+            'content' => $translation ? ($translation->content ?? $translation->description) : '',
             'image' => [
                 'default' => $newsItem->image_default,
                 'mobile' => $newsItem->image_mobile,
                 'tablet' => $newsItem->image_tablet,
             ],
-            'content' => $newsItem->content,
+            'created_at' => $newsItem->date,
+            'isNew' => $newsItem->is_new,
         ];
+
+        $relatedNews = News::with(['translations' => function ($query) use ($locale) {
+            $query->where('locale', $locale);
+        }])
+        ->where('id', '!=', $id)
+        ->orderBy('date', 'desc')
+        ->limit(3)
+        ->get()
+        ->map(function ($item) use ($locale) {
+            $translation = $item->translation($locale);
+
+            return [
+                'id' => $item->id,
+                'title' => $translation ? $translation->title : '',
+                'content' => $translation ? ($translation->content ?? $translation->description) : '',
+                'image' => [
+                    'default' => $item->image_default,
+                    'mobile' => $item->image_mobile,
+                    'tablet' => $item->image_tablet,
+                ],
+                'link' => "/news/{$item->id}",
+            ];
+        });
 
         return Inertia::render('NewsDetail', [
             'newsItem' => $formattedNews,

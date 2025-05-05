@@ -1,8 +1,18 @@
 <?php
 
+use App\Http\Controllers\LanguageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\NewsController; // Добавляем импорт контроллера
+
+Route::get('language/{locale}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
+
+Route::post('/locale/{locale}', function (string $locale) {
+    if (in_array($locale, ['ua', 'ru', 'en'])) {
+        session()->put('locale', $locale);
+    }
+    return redirect()->back();
+})->name('set.locale');
 
 
 Route::get('/', function () {
