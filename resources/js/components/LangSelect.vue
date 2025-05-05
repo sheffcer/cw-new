@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
-import { usePage } from '@inertiajs/vue3';
-import axios from 'axios'; // Убедитесь, что axios доступен в вашем проекте
+import { usePage, router } from '@inertiajs/vue3';
+// Импорт axios больше не нужен
 
 const isOpen = ref(false);
 
@@ -31,49 +31,27 @@ const selectOption = (lang: typeof languages[0]) => {
     if (lang.code !== selectedLang.value.code) {
         console.log('Отправляем запрос на изменение языка на:', lang.code);
 
-        // Получаем CSRF-токен
-        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-
-        // Вариант 1: Использование формы (более надежный метод)
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `/locale/${lang.code}`;
-        form.style.display = 'none';
-
-        // Добавляем CSRF-токен
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_token';
-        csrfInput.value = csrfToken || '';
-        form.appendChild(csrfInput);
-
-        // Имитируем метод PUT с помощью скрытого поля _method
-        const methodInput = document.createElement('input');
-        methodInput.type = 'hidden';
-        methodInput.name = '_method';
-        methodInput.value = 'POST';
-        form.appendChild(methodInput);
-
-        document.body.appendChild(form);
-        form.submit();
-
-        // Вариант 2: Альтернативный вариант с axios, если выше не работает
-        /*
-        axios.post(`/locale/${lang.code}`, {}, {
-            headers: {
-                'X-CSRF-TOKEN': csrfToken,
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
+        // Используем Inertia.js для смены локали БЕЗ перезагрузки всей страницы
+        router.post(`/locale/${lang.code}`, {}, {
+            preserveState: false, // Не сохраняем старое состояние
+            preserveScroll: true, // Сохраняем позицию прокрутки
+            onSuccess: () => {
+                // Вместо перезагрузки перезапрашиваем текущую страницу через visit
+                // указывая only: [], чтобы получить все проперти заново
+                router.visit(window.location.href, {
+                    preserveScroll: true,
+                    replace: true,
+                    preserveState: false,
+                    only: [] // Запрашиваем все свойства, чтобы получить актуальные переводы
+                });
             }
-        }).then(() => {
-            window.location.reload();
-        }).catch(error => {
-            console.error('Ошибка при выполнении запроса:', error);
         });
-        */
     }
     isOpen.value = false;
 };
+
+
+
 
 onMounted(() => {
     document.addEventListener('click', (event: Event) => {
@@ -84,9 +62,6 @@ onMounted(() => {
     });
 });
 </script>
-
-
-
 
 <template>
     <label class="page-header__lang field-select">

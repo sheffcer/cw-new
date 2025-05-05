@@ -7,13 +7,16 @@ use App\Http\Controllers\NewsController; // Добавляем импорт ко
 
 //Route::get('language/{locale}', [LanguageController::class, 'switchLanguage'])->name('language.switch');
 
+Route::get('/locale/{locale}', [App\Http\Controllers\LanguageController::class, 'switchLanguage'])
+    ->name('locale.switch');
+
 Route::post('/locale/{locale}', [LanguageController::class, 'switchLanguage'])
     ->name('locale.switch')
     ->middleware('web');
 
 
 Route::post('/locale/{locale}', function (string $locale) {
-    if (in_array($locale, ['ua', 'ru', 'en'])) {
+    if (in_array($locale, ['uk', 'ru', 'en'])) {
         session()->put('locale', $locale);
     }
     return redirect()->back();
