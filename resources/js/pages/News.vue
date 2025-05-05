@@ -2,6 +2,10 @@
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import NewsComponent from '@/components/NewsComponent.vue';
+import { useTranslation } from '@/composables/useTranslation.ts';
+
+const { t, locale } = useTranslation();
+
 
 // Определение типа для новостей
 interface NewsItem {
@@ -36,7 +40,8 @@ const props = defineProps<{
     </Head>
 
     <div class="main-content__inner">
-        <h1 class="news-page__title">Новини ColorWay</h1>
+        <h1 class="news-page__title">{{ t('news') }}
+        </h1>
         <NewsComponent :news-items="newsItems" />
     </div>
 </template>

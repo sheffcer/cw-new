@@ -1,0 +1,16 @@
+{
+    "welcome_message": "Welcome to our application",
+    "hello_user": "Hello, :name",
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "profile": "Profile",
+    "language": "Language",
+    "english": "English",
+    "ukrainian": "Ukrainian",
+    "russian": "Russian",
+    "news": "ColorWay News"
+}

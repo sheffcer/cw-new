@@ -1,0 +1,16 @@
+{
+    "welcome_message": "Ласкаво просимо до нашого додатку",
+    "hello_user": "Вітаємо, :name",
+    "home": "Головна",
+    "about": "Про нас",
+    "contact": "Контакти",
+    "login": "Вхід",
+    "register": "Реєстрація",
+    "logout": "Вихід",
+    "profile": "Профіль",
+    "language": "Мова",
+    "english": "Англійська",
+    "ukrainian": "Українська",
+    "russian": "Російська",
+    "news": "Новини ColorWay"
+}

@@ -4,6 +4,7 @@ import { usePage, router } from '@inertiajs/vue3';
 // Импорт axios больше не нужен
 
 const isOpen = ref(false);
+const isChangingLocale = ref(false);
 
 // Определяем доступные языки
 const languages = [
@@ -27,31 +28,27 @@ const toggleSelect = (event: Event) => {
 };
 
 const selectOption = (lang: typeof languages[0]) => {
-    // Если выбранный язык отличается от текущего
     if (lang.code !== selectedLang.value.code) {
-        console.log('Отправляем запрос на изменение языка на:', lang.code);
+        isChangingLocale.value = true;
 
-        // Используем Inertia.js для смены локали БЕЗ перезагрузки всей страницы
         router.post(`/locale/${lang.code}`, {}, {
-            preserveState: false, // Не сохраняем старое состояние
-            preserveScroll: true, // Сохраняем позицию прокрутки
+            preserveState: false,
+            preserveScroll: true,
             onSuccess: () => {
-                // Вместо перезагрузки перезапрашиваем текущую страницу через visit
-                // указывая only: [], чтобы получить все проперти заново
                 router.visit(window.location.href, {
                     preserveScroll: true,
                     replace: true,
                     preserveState: false,
-                    only: [] // Запрашиваем все свойства, чтобы получить актуальные переводы
+                    only: [],
+                    onFinish: () => {
+                        isChangingLocale.value = false;
+                    }
                 });
             }
         });
     }
     isOpen.value = false;
 };
-
-
-
 
 onMounted(() => {
     document.addEventListener('click', (event: Event) => {
@@ -64,6 +61,10 @@ onMounted(() => {
 </script>
 
 <template>
+    <div v-if="isChangingLocale" class="fixed top-0 left-0 w-full h-1" style="background-color: rgba(34, 188, 62, 0.3);">
+        <div class="h-full w-24 animate-pulse" style="background-color: var(--secondary-color, #22BC3E);"></div>
+    </div>
+
     <label class="page-header__lang field-select">
         <div class="field-select__name"><span>мова</span></div>
         <div class="field-select__select-wrap">
