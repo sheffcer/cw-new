@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t, locale } = useTranslation();
+
 defineProps<{
     className: string
 }>()
@@ -9,7 +13,8 @@ defineProps<{
 <!--    <label class="page-header__search field-text">-->
     <label :class="[className, 'field-text']">
             <span class="field-text__input-wrap">
-              <input class="field-text__input" type="search" placeholder="Шукати серед 25 000 товарів">
+              <input class="field-text__input" type="search" :placeholder="t('search.placeholder')"
+              >
 <!--              <button class="btn btn&#45;&#45;search"><span>Пошук</span> <img src="assets/icons/search-icon.svg" alt=""></button>-->
             </span>
         <button class="btn btn--search"><span>Пошук</span> <img src="assets/icons/search-icon.svg" alt=""></button>

@@ -12,5 +12,9 @@
     "english": "English",
     "ukrainian": "Ukrainian",
     "russian": "Russian",
-    "news": "ColorWay News"
+    "news": "ColorWay News",
+    "header.catalog": "Catalog",
+    "search.placeholder": "Search among 25,000 items",
+    "region.tooltip": "region",
+    "lang.tooltip": "language"
 }

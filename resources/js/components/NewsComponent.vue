@@ -34,7 +34,7 @@ function formatDate(dateString: string): string {
 
 <template>
   <div class="news-list">
-    <h1 class="news-list__title">Новости</h1>
+<!--    <h1 class="news-list__title">Новости</h1>-->
 
     <div v-for="newsItem in newsItems" :key="newsItem.id" class="news-list__item">
       <!-- Добавляем изображение с учетом разных форматов -->

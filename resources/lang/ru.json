@@ -12,5 +12,9 @@
     "english": "Английский",
     "ukrainian": "Украинский",
     "russian": "Русский",
-    "news": "Новости ColorWay"
+    "news": "Новости ColorWay",
+    "header.catalog": "Каталог",
+    "search.placeholder": "Поиск среди 25 000 товаров",
+    "region.tooltip": "регион",
+    "lang.tooltip": "язык"
 }

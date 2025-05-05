@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t, locale } = useTranslation();
 
 const isOpen = ref(false);
 const selectedRegion = ref({
@@ -40,7 +43,7 @@ onMounted(() => {
 
 <template>
     <label class="page-header__region field-select">
-        <div class="field-select__name"><span>регіон</span></div>
+        <div class="field-select__name"><span>{{t('region.tooltip')}}</span></div>
         <div class="field-select__select-wrap">
             <div class="main field-select__select" @click="toggleSelect">
         <span class="field-select__selected">

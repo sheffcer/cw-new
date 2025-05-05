@@ -2,7 +2,7 @@
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import NewsComponent from '@/components/NewsComponent.vue';
-import { useTranslation } from '@/composables/useTranslation.ts';
+import { useTranslation } from '@/composables/useTranslation';
 
 const { t, locale } = useTranslation();
 

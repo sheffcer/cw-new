@@ -2,6 +2,9 @@
 // import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { ref, watch } from 'vue';
 import CustomIcon from '@/components/ui/icons/CustomIcon.vue'; // Імпортуємо CustomIcon
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t, locale } = useTranslation();
 
 // Типи з підтримкою href та компонентних іконок
 export type SubItem<U = string> = {
@@ -63,7 +66,7 @@ watch(menuVisible, (visible) => {
         >
             <!-- Замінили img на CustomIcon -->
             <CustomIcon icon="catalog-icon.svg" size="30px" />
-            <span>Каталог</span>
+            <span>{{ t('header.catalog') }}</span>
         </button>
 
         <ul v-if="menuVisible" class="menu">

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { usePage, router } from '@inertiajs/vue3';
+import { useTranslation } from '@/composables/useTranslation';
+
+const { t, locale } = useTranslation();
 // Импорт axios больше не нужен
 
 const isOpen = ref(false);
@@ -66,7 +69,7 @@ onMounted(() => {
     </div>
 
     <label class="page-header__lang field-select">
-        <div class="field-select__name"><span>мова</span></div>
+        <div class="field-select__name"><span>{{t('lang.tooltip')}}</span></div>
         <div class="field-select__select-wrap">
             <div class="field-select__select" @click="toggleSelect">
                 <span class="field-select__selected">{{ selectedLang.label }}</span>
