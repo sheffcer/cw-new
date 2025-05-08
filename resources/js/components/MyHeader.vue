@@ -16,7 +16,7 @@ const emit = defineEmits<{
     <header class="page-header" role="banner">
         <div class="page-header__burger burger" @click="emit('toggleSidebar')"
         ><span></span></div>
-        <Link href="main" :preload="true" class="page-header__logo logo">
+        <Link href="/main" :preload="true" class="page-header__logo logo">
             <picture class="page-header__img">
                 <source media="(max-width: 767px)" srcset="assets/icons/logo-mobile.svg">
                 <source media="(min-width: 768px)" srcset="assets/icons/logo.svg">
