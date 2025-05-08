@@ -26,7 +26,10 @@ const toggleSidebar = () => {
                 <div class="page__content">
                     <Header @toggle-sidebar="toggleSidebar" />
                     <main class="main-content" role="main">
-                        <slot />
+                        <KeepAlive>
+                            <slot />
+                        </KeepAlive>
+
                     </main>
                 </div>
                 <Footer />
@@ -98,5 +101,16 @@ const toggleSidebar = () => {
     transition: transform 0.3s ease;
     overflow-y: auto;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
 
 </style>

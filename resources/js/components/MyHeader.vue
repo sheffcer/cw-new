@@ -4,6 +4,7 @@ import MainDropDown from "@/components/ui/my-dropdown-menu/MainDropDown.vue";
 import AppSearch from "@/components/AppSearch.vue";
 import RegionSelect from "@/components/RegionSelect.vue";
 import LangSelect from "@/components/LangSelect.vue";
+import { Link } from '@inertiajs/vue3';
 
 const emit = defineEmits<{
     toggleSidebar: []
@@ -15,13 +16,21 @@ const emit = defineEmits<{
     <header class="page-header" role="banner">
         <div class="page-header__burger burger" @click="emit('toggleSidebar')"
         ><span></span></div>
-        <a href="main.html" class="page-header__logo logo">
+        <Link href="main" :preload="true" class="page-header__logo logo">
             <picture class="page-header__img">
                 <source media="(max-width: 767px)" srcset="assets/icons/logo-mobile.svg">
                 <source media="(min-width: 768px)" srcset="assets/icons/logo.svg">
                 <img src="assets/icons/logo.svg" alt="">
             </picture>
-        </a>
+        </Link>
+
+<!--        <a href="main.html" class="page-header__logo logo">-->
+<!--            <picture class="page-header__img">-->
+<!--                <source media="(max-width: 767px)" srcset="assets/icons/logo-mobile.svg">-->
+<!--                <source media="(min-width: 768px)" srcset="assets/icons/logo.svg">-->
+<!--                <img src="assets/icons/logo.svg" alt="">-->
+<!--            </picture>-->
+<!--        </a>-->
         <div class="page-header__catalog dropdown">
             <MainDropDown/>
         </div>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Link } from '@inertiajs/vue3';
 // Определение интерфейса для новостей
 interface NewsItem {
     id: number;
@@ -26,7 +27,10 @@ defineProps<{
     <div class="news">
         <div class="news__header">
             <h2 class="news__title">{{ title || 'Новини' }}</h2>
-            <a class="news__all" :href="showAllLink || 'news'">Більше новин</a>
+<!--            <a class="news__all" :href="showAllLink || 'news'">Більше новин</a>-->
+            <Link class="news__all" href="news" :preload="true">
+                Більше новин
+            </Link>
         </div>
         <div class="news__inner">
             <article
@@ -61,7 +65,10 @@ defineProps<{
                         </picture>
                     </component>
                     <h3 class="card__title">
-                        <a v-if="item.link" :href="item.link">{{ item.title }}</a>
+                        <Link v-if="item.link" :href="item.link" :preload="true">
+                            {{ item.title }}
+                        </Link>
+<!--                        <a v-if="item.link" :href="item.link">{{ item.title }}</a>-->
                         <template v-else>{{ item.title }}</template>
                     </h3>
                     <p class="card__descr">{{ item.description }}</p>
