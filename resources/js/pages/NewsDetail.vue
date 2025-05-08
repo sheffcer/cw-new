@@ -89,93 +89,99 @@ function truncate(text: string, length: number): string {
   </div>
 </template>
 
-<style scoped>
-.news-detail__title {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+<style scoped lang="scss">
+.news-detail {
+    $block-name:                &; // #{$block-name}__element
+    @include container();
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-bottom: 1rem;
+    }
+
+    &__image {
+        margin-bottom: 1rem;
+    }
+
+    &__image-src {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+
+    &__content {
+        margin-bottom: 1.5rem;
+    }
+
+    &__date {
+        font-size: 0.875rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    &__related {
+        margin-top: 2rem;
+    }
+
+    &__related-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+
+    &__related-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1rem;
+    }
+
+    &__related-item {
+        border: 1px solid #e2e8f0;
+        border-radius: 4px;
+        padding: 1rem;
+    }
+
+    &__related-image {
+        margin-bottom: 0.5rem;
+    }
+
+    &__related-image-src {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    &__related-link {
+        color: #3182ce;
+    }
+
+    &__related-link:hover {
+        text-decoration: underline;
+    }
+
+    &__related-item-title {
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+    }
+
+    &__related-item-text {
+        font-size: 0.875rem;
+        color: #4a5568;
+    }
+
+    &__back {
+        margin-top: 1.5rem;
+    }
+
+    &__back-link {
+        color: #3182ce;
+    }
+
+    &__back-link:hover {
+        text-decoration: underline;
+    }
 }
 
-.news-detail__image {
-  margin-bottom: 1rem;
-}
-
-.news-detail__image-src {
-  max-width: 100%;
-  height: auto;
-  border-radius: 4px;
-}
-
-.news-detail__content {
-  margin-bottom: 1.5rem;
-}
-
-.news-detail__date {
-  font-size: 0.875rem;
-  color: #666;
-  margin-bottom: 2rem;
-}
-
-.news-detail__related {
-  margin-top: 2rem;
-}
-
-.news-detail__related-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-}
-
-.news-detail__related-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-}
-
-.news-detail__related-item {
-  border: 1px solid #e2e8f0;
-  border-radius: 4px;
-  padding: 1rem;
-}
-
-.news-detail__related-image {
-  margin-bottom: 0.5rem;
-}
-
-.news-detail__related-image-src {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.news-detail__related-link {
-  color: #3182ce;
-}
-
-.news-detail__related-link:hover {
-  text-decoration: underline;
-}
-
-.news-detail__related-item-title {
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-}
-
-.news-detail__related-item-text {
-  font-size: 0.875rem;
-  color: #4a5568;
-}
-
-.news-detail__back {
-  margin-top: 1.5rem;
-}
-
-.news-detail__back-link {
-  color: #3182ce;
-}
-
-.news-detail__back-link:hover {
-  text-decoration: underline;
-}
 </style>
